@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+</head>
+<body>
+
+
+    <div class="clock">
+      <div class="clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+
+
+  <style>
+    html {
+      background: #018DED url(http://unsplash.it/1500/1000?image=881&blur=50);
+      background-size: cover;
+      font-family: 'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+
+    body {
+      margin: 0;
+      font-size: 2rem;
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .clock {
+      width: 30rem;
+      height: 30rem;
+      border: 20px solid white;
+      border-radius: 50%;
+      margin: 50px auto;
+      position: relative;
+      padding: 2rem;
+      box-shadow:
+        0 0 0 4px rgba(0,0,0,0.1),
+        inset 0 0 0 3px #EFEFEF,
+        inset 0 0 10px black,
+        0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px); /* account for the height of the clock hands */
+    }
+
+    .hand {
+      width: 50%;
+      /*height: 6px;*/
+      background: black;
+      position: absolute;
+      top: 50%;
+      /* my additions */
+      transform-origin: 100%;
+      transition: all 0.5s;
+      transition-timing-function: cubic-bezier(0.25, 0.1, 0, 1.8);
+    }
+
+    .hour-hand {
+      height: 6px;
+      /*width: 30%;*/
+    }
+
+    .min-hand {
+      height: 4.5px;
+      /*width: 40%;*/
+    }
+
+    .second-hand {
+      height: 3px;
+      /*width: 50%;*/
+    }
+
+  </style>
+
+  <script>
+    const hourHand = document.querySelector('.hour-hand');
+    const minHand = document.querySelector('.min-hand');
+    const secondHand = document.querySelector('.second-hand');
+
+    let time = new Date();
+
+    // align hands with current time
+    function tickHand() {
+      let hourPos = (time.getHours() * 30 + 90) % 360;
+      let minPos = (time.getMinutes() * 6 + 90) % 360;
+      let secondPos = (time.getSeconds() * 6 + 90) % 360;
+
+      hourHand.style.transform = `rotate(${hourPos}deg)`;
+      minHand.style.transform = `rotate(${minPos}deg)`;
+      secondHand.style.transform = `rotate(${secondPos}deg)`;
+
+      time = new Date()
+    };
+
+    tickHand();
+
+    const clock = setInterval(tickHand, 1000);
+
+  </script>
+</body>
+</html>
