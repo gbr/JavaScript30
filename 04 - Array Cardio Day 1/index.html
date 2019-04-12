@@ -157,64 +157,65 @@
 
 		    // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
 		    // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-		    let boulevards = [];
-		    let wikiData = fetch('https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris',
-			    {
-			    	method: 'GET',
-			    	mode: 'cors',
-			    	headers: {
-			    		'Content-Type': 'text/html'
-			    	}
-			    })
-		    	.then(resp => resp.text())
-		    	.then(html => {
-		    		const parser = new DOMParser();
-		    		const wikiDoc = parser.parseFromString(html, 'text/html');
+		    (async () => {
+			    response = await fetch('https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris',
+				    {
+				    	method: 'GET',
+				    	mode: 'cors',
+				    	headers: {
+				    		'Content-Type': 'text/html'
+				    	}
+				    });
+			    html = await response.text();
+	    		const parser = new DOMParser();
+	    		const wikiDoc = parser.parseFromString(html, 'text/html');
 
-		    		boulevards = Array.from(
-		    			wikiDoc.querySelectorAll('.mw-category-group h3 + ul')
-	    			)
+	    		return( 
+	    			Array.from(
+	    				wikiDoc.querySelectorAll('.mw-category-group h3 + ul')
+    				)
 	    				.slice(2)
 		    			.map(listEl => listEl.innerText)
-		    			.reduce((accum, listEl) => accum.concat(listEl.split(`\n`)), []);
-		    	})
-		    	.then(_ => {
-			    	results = boulevards.filter(name => name.includes('de'));
-				    printStr = `boulevards in Paris contain 'de' anywhere in the name`;
-				    body.innerHTML += `<h1>${results.length} ${printStr}</h1>`;
-				    console.log(printStr, results);
-		    	})
-		    	.catch(function(err) {  
-		        	console.error('Failed to fetch page: ', err);  
-		    	});
+		    			.reduce((accum, listEl) => accum.concat(listEl.split(`\n`)), [])
+    			);
+	    	})()
+	    	.then(r => {
+	    		results = r.filter(name => name.includes('de'));
+	    		printStr = `boulevards in Paris contain 'de' anywhere in the name`;
+	    		body.innerHTML += `<h1>${results.length} ${printStr}</h1>`;
+		    	console.log(printStr, results);
 
-		    // 7. sort Exercise
-		    // Sort the people alphabetically by last name
-		    results = people.sort((p1, p2) => {
-		    	const [first1, last1] = p1.split(', '), [first2, last2] = p2.split(', ')
-		    	return (last1).localeCompare(last2);
-		    })
-		    printStr = 'people alphabetically sorted by last name';
-		    body.innerHTML += `<h1>${results.length} ${printStr}</h1>`;
-		    console.log(printStr, results);
+		    	// 7. sort Exercise
+			    // Sort the people alphabetically by last name
+			    results = people.sort((p1, p2) => {
+			    	const [first1, last1] = p1.split(', '), [first2, last2] = p2.split(', ')
+			    	return (last1).localeCompare(last2);
+			    })
+			    printStr = 'people alphabetically sorted by last name';
+			    body.innerHTML += `<h1>${results.length} ${printStr}</h1>`;
+			    console.log(printStr, results);
 
-		    // 8. Reduce Exercise
-		    // Sum up the instances of each of these
-		    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+			    // 8. Reduce Exercise
+			    // Sum up the instances of each of these
+			    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
 
-		    const dataAccum = data.reduce((accum, item) => {
-		    	if (item in accum)
-		    		accum[item]++	
-		    	else 
-		    		accum[item] = 1
-		    	return accum
-		    }, {});
+			    const dataAccum = data.reduce((accum, item) => {
+			    	if (item in accum)
+			    		accum[item]++	
+			    	else 
+			    		accum[item] = 1
+			    	return accum
+			    }, {});
 
-		   	sumVals = obj => Object.values(obj).reduce((a, b) => a + b);
-		   	results = sumVals(dataAccum);
-		    printStr = 'instances of names';
-		    body.innerHTML += `<h1>${results} ${printStr}</h1>`;
-		    console.log(printStr, dataAccum);
+			   	sumVals = obj => Object.values(obj).reduce((a, b) => a + b);
+			   	results = sumVals(dataAccum);
+			    printStr = 'instances of the list of strings';
+			    body.innerHTML += `<h1>${results} ${printStr}</h1>`;
+			    console.log(printStr, dataAccum);
+	    	})
+	    	.catch(err => {
+	    		throw err
+	    	});
 
 		} catch (err) {
 			const promptEl = body.querySelector('h2')
