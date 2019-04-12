@@ -115,113 +115,153 @@
 		    const people = ['Beck, Glenn', 'Becker, Carl', 'Beckett, Samuel', 'Beddoes, Mick', 'Beecher, Henry', 'Beethoven, Ludwig', 'Begin, Menachem', 'Belloc, Hilaire', 'Bellow, Saul', 'Benchley, Robert', 'Benenson, Peter', 'Ben-Gurion, David', 'Benjamin, Walter', 'Benn, Tony', 'Bennington, Chester', 'Benson, Leana', 'Bent, Silas', 'Bentsen, Lloyd', 'Berger, Ric', 'Bergman, Ingmar', 'Berio, Luciano', 'Berle, Milton', 'Berlin, Irving', 'Berne, Eric', 'Bernhard, Sandra', 'Berra, Yogi', 'Berry, Halle', 'Berry, Wendell', 'Bethea, Erin', 'Bevan, Aneurin', 'Bevel, Ken', 'Biden, Joseph', 'Bierce, Ambrose', 'Biko, Steve', 'Billings, Josh', 'Biondo, Frank', 'Birrell, Augustine', 'Black, Elk', 'Blair, Robert', 'Blair, Tony', 'Blake, William'];
 
 		    const body = document.querySelector('body');
-		    let results = inventors;
+		    let exercise = 0;
 		    let printStr = '';
 
 		    try {
 
-		    // Array.prototype.filter()
-		    // 1. Filter the list of inventors for those who were born in the 1500's
-		    results = inventors.filter(({year}) => year >= 1500 && year < 1600);
-		    printStr = 'inventors born in the 1500s';
-		    body.innerHTML += `<h1>${results.length} ${printStr}</h1>`;
-			console.log(printStr, results);
+			    // Array.prototype.filter()
+			    // 1. Filter the list of inventors for those who were born in the 1500's
+			    (async () => 
+			    	inventors.filter(({year}) => year >= 1500 && year < 1600)
+			    )()
+			    .then(results => {
+			    	exercise = 1;
+			    	printStr = 'inventors born in the 1500s';
+				    body.innerHTML += `<h1>Exercise ${exercise}:
+				    	${results.length} ${printStr}</h1>`;
+					console.log(exercise, printStr, results);
+			    });
 
-		    // Array.prototype.map()
-		    // 2. Give us an array of the inventors' first and last names
-		    results = inventors.map(({ first, last }) => ({ first, last }));
-		    printStr = `inventors' first and last names`;
-		    body.innerHTML += `<h1>${results.length} ${printStr}</h1>`;
-		    console.log(printStr, results);
+			    // Array.prototype.map()
+			    // 2. Give us an array of the inventors' first and last names
+			    (async () => 
+			    	inventors.map(({ first, last }) => ({ first, last }))
+			    )()
+			    .then(results => {
+			    	exercise = 2;
+			    	printStr = `inventors' first and last names`;
+			    	body.innerHTML += `<h1>Exercise ${exercise}:
+				    	${results.length} ${printStr}</h1>`;
+				    console.log(exercise, printStr, results);
+			    });
 
-		    // Array.prototype.sort()
-		    // 3. Sort the inventors by birthdate, oldest to youngest
-		    results = inventors.sort((inv1, inv2) => inv1.year >= inv2.year ? 1 : -1);
-		    printStr = 'inventors sorted by earliest birthdate to latest';
-		    body.innerHTML += `<h1>${results.length} ${printStr}</h1>`;
-		    console.log(printStr, results);
+			    // Array.prototype.sort()
+			    // 3. Sort the inventors by birthdate, oldest to youngest
+			    (async () =>
+			    	inventors.sort((inv1, inv2) => inv1.year >= inv2.year ? 1 : -1)
+				)()
+				.then(results => {
+					exercise = 3;
+					printStr = 'inventors sorted by earliest birthdate to latest';
+				    body.innerHTML += `<h1>Exercise ${exercise}:
+				    	${results.length} ${printStr}</h1>`;
+				    console.log(exercise, printStr, results);
+				});
 
-		    // Array.prototype.reduce()
-		    // 4. How many years did all the inventors live?
-		    results = inventors.reduce((accum, inv) => accum + inv.passed - inv.year, 0);
-		    printStr = 'years of total lifespan for all inventors';
-		    body.innerHTML += `<h1>${results} ${printStr}</h1>`;
-		    console.log(printStr, results);
+			    // Array.prototype.reduce()
+			    // 4. How many years did all the inventors live?
+			    (async () =>
+			    	inventors.reduce((accum, inv) => accum + inv.passed - inv.year, 0)
+				)()
+				.then(results => {
+					exercise = 4;
+					printStr = 'years of total lifespan for all inventors';
+			    	body.innerHTML += `<h1>Exercise ${exercise}:
+			    		${results} ${printStr}</h1>`;
+			    	console.log(exercise, printStr, results);
+				});
 
-		    // 5. Sort the inventors by years lived
-		   	results = inventors.sort((inv1, inv2) =>
-		   		(inv1.passed - inv1.year) >= (inv2.passed - inv2.year) ? 1 : -1);
-		    printStr = 'inventors sorted by years lived';
-		    body.innerHTML += `<h1>${results.length} ${printStr}</h1>`;
-		    console.log(printStr, results);
+			    // 5. Sort the inventors by years lived
+			    (async () =>
+				   	inventors.sort((inv1, inv2) =>
+				   		(inv1.passed - inv1.year) >= (inv2.passed - inv2.year) ? 1 : -1)
+			   	)()
+			   	.then(results => {
+			   		exercise = 5;
+				    printStr = 'inventors sorted by years lived';
+				    body.innerHTML += `<h1>Exercise ${exercise}:
+				    	${results.length} ${printStr}</h1>`;
+				    console.log(exercise, printStr, results);
+				});
 
-		    // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
-		    // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-		    (async () => {
-			    response = await fetch('https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris',
-				    {
-				    	method: 'GET',
-				    	mode: 'cors',
-				    	headers: {
-				    		'Content-Type': 'text/html'
-				    	}
-				    });
-			    html = await response.text();
-	    		const parser = new DOMParser();
-	    		const wikiDoc = parser.parseFromString(html, 'text/html');
+			    // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
+			    // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+			    (async () => {
+				    response = await fetch('https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris',
+					    {
+					    	method: 'GET',
+					    	mode: 'cors',
+					    	headers: {
+					    		'Content-Type': 'text/html'
+					    	}
+					    });
+				    html = await response.text();
+		    		const parser = new DOMParser();
+		    		const wikiDoc = parser.parseFromString(html, 'text/html');
 
-	    		return( 
-	    			Array.from(
-	    				wikiDoc.querySelectorAll('.mw-category-group h3 + ul')
-    				)
+		    		return( 
+		    			Array.from(
+		    				wikiDoc.querySelectorAll('.mw-category-group h3 + ul')
+	    				)
 	    				.slice(2)
 		    			.map(listEl => listEl.innerText)
 		    			.reduce((accum, listEl) => accum.concat(listEl.split(`\n`)), [])
-    			);
-	    	})()
-	    	.then(r => {
-	    		results = r.filter(name => name.includes('de'));
-	    		printStr = `boulevards in Paris contain 'de' anywhere in the name`;
-	    		body.innerHTML += `<h1>${results.length} ${printStr}</h1>`;
-		    	console.log(printStr, results);
+	    			);
+		    	})()
+		    	.then(boulevards => {
+		    		const results = boulevards.filter(name => name.includes('de'));
+		    		exercise = 6
+		    		printStr = `boulevards in Paris contain 'de' anywhere in the name`;
+		    		body.innerHTML += `<h1>Exercise ${exercise}:
+		    			${results.length} ${printStr}</h1>`;
+			    	console.log(exercise, printStr, results);
+		    	});
 
 		    	// 7. sort Exercise
 			    // Sort the people alphabetically by last name
-			    results = people.sort((p1, p2) => {
-			    	const [first1, last1] = p1.split(', '), [first2, last2] = p2.split(', ')
-			    	return (last1).localeCompare(last2);
-			    })
-			    printStr = 'people alphabetically sorted by last name';
-			    body.innerHTML += `<h1>${results.length} ${printStr}</h1>`;
-			    console.log(printStr, results);
+			    (async () =>
+				    people.sort((p1, p2) => {
+				    	const [first1, last1] = p1.split(', '), [first2, last2] = p2.split(', ')
+				    	return (last1).localeCompare(last2);
+				    })
+				)()
+				.then(results => {
+					exercise = 7;
+					printStr = 'people alphabetically sorted by last name';
+				    body.innerHTML += `<h1>Exercise ${exercise}:
+				    	${results.length} ${printStr}</h1>`;
+				    console.log(exercise, printStr, results);
+				});
 
-			    // 8. Reduce Exercise
+				// 8. Reduce Exercise
 			    // Sum up the instances of each of these
 			    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
 
-			    const dataAccum = data.reduce((accum, item) => {
-			    	if (item in accum)
-			    		accum[item]++	
-			    	else 
-			    		accum[item] = 1
-			    	return accum
-			    }, {});
+				(async () =>
+				    data.reduce((accum, item) => {
+				    	if (item in accum)
+				    		accum[item]++	
+				    	else 
+				    		accum[item] = 1
+				    	return accum
+				    }, Object.create(null))
+				)()
+				.then(dataAccum => {
+					sumVals = obj => Object.values(obj).reduce((a, b) => a + b);
+				   	const results = sumVals(dataAccum);
+				   	exercise = 8;
+				    printStr = 'instances of the list of strings';
+				    body.innerHTML += `<h1>Exercise ${exercise}: 
+				    	${results} ${printStr}</h1>`;
+				    console.log(exercise, printStr, dataAccum);
+				});
 
-			   	sumVals = obj => Object.values(obj).reduce((a, b) => a + b);
-			   	results = sumVals(dataAccum);
-			    printStr = 'instances of the list of strings';
-			    body.innerHTML += `<h1>${results} ${printStr}</h1>`;
-			    console.log(printStr, dataAccum);
-	    	})
-	    	.catch(err => {
-	    		throw err
-	    	});
-
-		} catch (err) {
-			const promptEl = body.querySelector('h2')
-			promptEl.innerText = `${promptEl.innerText.slice(0, -2)} 🤦`
-			console.error(err)
-		}
+			} catch (err) {
+				const promptEl = body.querySelector('h2')
+				promptEl.innerText = `${promptEl.innerText.slice(0, -2)} 🤦`
+				console.error(err)
+			}
 
 		</script>
 	</body>
