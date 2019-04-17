@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Array Cardio 💪💪</title>
+  <style src="base.css"></style>
+  <style>
+  	body {
+	font-family: Arial;
+	font-size: 16px;
+	line-height: 1.5;
+	
+	background-color: #ffffff;
+	color: #333333;
+	margin: 40px auto 40px auto;
+	width: 620px;
+	}
+
+	h1 {
+		font-size: 48px;
+		font-weight: 700;
+		line-height: 1.2;
+	}
+
+	h2 {
+		font-size: 24px;
+	}
+  </style>
+</head>
+<body>
+  <h2>Psst: have a look at the JavaScript Console 💁</h2>
+  <script>
+    // ## Array Cardio Day 2
+
+    const people = [
+      { name: 'Wes', year: 1988 },
+      { name: 'Kait', year: 1986 },
+      { name: 'Irv', year: 1970 },
+      { name: 'Lux', year: 2015 }
+    ];
+
+    const comments = [
+      { text: 'Love this!', id: 523423 },
+      { text: 'Super good', id: 823423 },
+      { text: 'You are the best', id: 2039842 },
+      { text: 'Ramen is my fav food ever', id: 123523 },
+      { text: 'Nice Nice Nice!', id: 542328 }
+    ];
+
+    const body = document.querySelector('body');
+
+    try {
+    	let boolResult = false;
+    	let resultStr = '';
+
+    	function reportResults(result, resultStr) {
+    		console.log(resultStr, result);
+	    	body.innerHTML += `
+	    		<h1>${resultStr}</h1>
+	    	`;
+    	}
+
+    	// Some and Every Checks
+    	function checkIs19(person) {
+    		const now = new Date();
+	    	return now.getFullYear() - person.year >= 19;
+    	}
+
+	    // Array.prototype.some() // is at least one person 19 or older?
+	    boolResult = people.some(checkIs19);
+	    resultStr = `There is ${boolResult === true ? '' : 'not '}at least one person 19 or older.`;
+	    reportResults(boolResult, resultStr);
+
+	    // Array.prototype.every() // is everyone 19 or older?
+	    boolResult = people.every(checkIs19);
+	    resultStr = `${boolResult === true ? 'Everyone' : 'Not everyone'} is 19 or older.`;
+	    reportResults(boolResult, resultStr);
+
+	    let objResult = {};
+
+	    // Array.prototype.find()
+	    // Find is like filter, but instead returns just the one you are looking for
+	    // find the comment with the ID of 823423
+	    objResult = comments.find(comment => {
+	    	return comment.id === 823423;
+	    });
+	    resultStr = `The comment with ID 823423 is: ${objResult.text}.`;
+	    reportResults(objResult, resultStr);
+
+	    // Array.prototype.findIndex()
+	    // Find the comment with this ID
+	    // delete the comment with the ID of 823423
+	    let idxResult = comments.findIndex(comment => comment.id === 823423);
+	    if (idxResult !== -1) {
+	    	comments.splice(idxResult, 1);
+	    	resultStr = 'The comment with ID 823423 has been removed.'
+	    } else {
+	    	resultStr = 'Could not find a comment with ID 823423.'
+	    }
+	    reportResults(idxResult, resultStr);
+    }	
+    catch(err) {
+    	const promptEl = document.querySelector('h2');
+    	promptEl.innerText = `${promptEl.innerText.slice(0, -2)} 🤦`;
+    	console.error(err);
+    }
+
+  </script>
+</body>
+</html>
