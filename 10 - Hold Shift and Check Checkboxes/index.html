@@ -114,15 +114,16 @@
   checkboxEls.forEach(checkboxEl => {
     checkboxEl.addEventListener('change', e => {
       // if shift is down, find relative position to last one
-      // set all checkboxes between there and here as new state      
       if (shiftIsDown && lastCheckedEl) {
         let currPos = checkboxEls.indexOf(checkboxEl);
         let lastPos = checkboxEls.indexOf(lastCheckedEl);
         let diff = lastPos - currPos;
-        let newCheckState = checkboxEl.checked;
-        let direction = Math.sign(diff);
 
-        for (let i = currPos; i != lastPos + direction; i += direction) {
+      // set all checkboxes between there and here as new state      
+      let newCheckState = checkboxEl.checked;
+      let direction = Math.sign(diff);
+
+      for (let i = currPos; i != lastPos + direction; i += direction) {
           checkboxEls[i].checked = newCheckState;
         }
       }
