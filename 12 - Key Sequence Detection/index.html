@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+	const answer = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+	let currIdx = 0;
+
+	window.addEventListener('keydown', e => {
+		if (e.key === answer[currIdx]) {
+			currIdx++;
+			console.log('Uh-huh, yesss!')
+		} else {
+			currIdx = 0;
+		}
+		if (currIdx === answer.length) {
+			console.log('Good work, Snake!! 💪🐍🦊');
+		}
+	});
+</script>
+</body>
+</html>
